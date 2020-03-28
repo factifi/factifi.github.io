@@ -21,12 +21,12 @@ function get_label_html(label) {
     '<span class="fact-check-label label-onwaar" style="' +
     "position: absolute;" +
     "display: block;" +
-    "top: 0px;" +
-    "right: 0px;" +
+    "top: 150px;" +
+    "left: -20px;" +
     "background-color: " +
     color +
     ";" +
-    "/* z-index: 999999999; */" +
+    "z-index: 999999999;" +
     "font-size: 30px;" +
     "color: white;" +
     "/* width: 200px; */" +
@@ -94,9 +94,9 @@ function init() {
               result[0].matched === false
             ) {
               console.log("No match");
-              $(img_container).append(get_label_html("NO MATCH"));
+              $(post).append(get_label_html("NO MATCH"));
             } else {
-              $(img_container).append(get_label_html(result[0].conclusion));
+              $(post).append(get_label_html(result[0].conclusion));
             }
 
             //console.log($(post).find("img.scaledImageFitWidth.img").length);
