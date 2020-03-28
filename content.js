@@ -46,7 +46,11 @@ function init() {
         .attr("aria-label")
         .trim();
 
-      if (post.hasClass("check-post-attr") || found.indexOf(txt) > -1) {
+      if (
+        !$(post).is(":visible") ||
+        post.hasClass("check-post-attr") ||
+        found.indexOf(txt) > -1
+      ) {
         // console.log("Already processed", post.data("check-id"), txt);
       } else {
         console.log("NEW!", "visible?:", $(post).is(":visible"));
