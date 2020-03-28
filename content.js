@@ -9,13 +9,23 @@ function insertAfter(referenceNode, newNode) {
 }
 
 function get_label_html(label) {
+  let color = "red";
+  if (label.toUpperCase() == "ONDUIDELIJK") {
+    color = "orange";
+  }
+  if (label.toUpperCase() == "NO MATCH") {
+    color = "grey";
+  }
+
   return (
     '<span class="fact-check-label label-onwaar" style="' +
     "position: absolute;" +
     "display: block;" +
     "top: 0px;" +
     "right: 0px;" +
-    "background-color: red;" +
+    "background-color: " +
+    color +
+    ";" +
     "/* z-index: 999999999; */" +
     "font-size: 30px;" +
     "color: white;" +
@@ -32,6 +42,9 @@ function get_label_html(label) {
 function init() {
   console.log("init Hack the Crisis", chrome.runtime);
   //chrome.browserAction.setBadgeText({ text: "0" }); // We have 10+ unread items.
+  var demo_post = document.createElement("div");
+  demo_post.innerHTML = article_html;
+  insertAfter(document.getElementById("substream_0"), demo_post);
 
   var tablink = window.location.href;
 
@@ -70,12 +83,22 @@ function init() {
         fetch("https://api-v2.factrank.org/match", requestOptions)
           .then(response => response.json())
           .then(result => {
-            console.log("Res", result[0], post);
+            console.log("Res", result, txt);
+
             const img_container = $(post)
               .find("img.scaledImageFitWidth.img")
               .parent("div");
 
-            $(img_container).append(get_label_html(result[0].conclusion));
+            if (
+              result[0].hasOwnProperty("matched") &&
+              result[0].matched === false
+            ) {
+              console.log("No match");
+              $(img_container).append(get_label_html("NO MATCH"));
+            } else {
+              $(img_container).append(get_label_html(result[0].conclusion));
+            }
+
             //console.log($(post).find("img.scaledImageFitWidth.img").length);
           })
           .catch(error => console.log("error", error));
