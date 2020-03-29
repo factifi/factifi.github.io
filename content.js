@@ -40,7 +40,6 @@ function get_label_html(label, src, res) {
     icon = onwaar_icon;
     border = "red";
     text =
-      // '<img src="web-icons/onwaar.svg>' +
       "Verifi.fi is <strong style='color: black;'>" +
       parseInt(parseFloat(res.confidence) * 100) +
       "% zeker</strong> dat dit artikel" +
@@ -68,28 +67,6 @@ function get_label_html(label, src, res) {
   if (url.startsWith("www")) url = "https://" + url;
 
   if (src == "hln")
-    /*return (
-      '<span class="fact-check-label hln label-onwaar" style="' +
-      "border: 1px solid " +
-      border +
-      ";" +
-      '">' +
-      icon +
-      '<span class="hover-content">' +
-      "<strong style='color: black;'>" +
-      label +
-      "</strong>" +
-      "<span class='info'>" +
-      "  " +
-      text +
-      "</span>" +
-      "<a href='" +
-      url +
-      "'>Meer info..</a>" +
-      "<span class='arrow'>></span>" +
-      "</span>" +
-      "</span>"
-    );*/
     return (
       '<span class="fact-check-label hln label-onwaar" style="' +
       "border-color: " +
@@ -142,7 +119,6 @@ function get_label_html(label, src, res) {
 }
 function init() {
   console.log("init Hack the Crisis", chrome.runtime);
-  //chrome.browserAction.setBadgeText({ text: "0" }); // We have 10+ unread items.
   var tablink = window.location.href;
   console.log("tablink is:", tablink);
   switch (tablink) {
@@ -167,7 +143,6 @@ function run_hln() {
     console.log("Section", s_i);
     $(this)
       .find("article:visible")
-      //.is("")
       .each(function() {
         console.log("ARTICLE");
         $(this)
@@ -176,7 +151,6 @@ function run_hln() {
             const txt = $(this)
               .text()
               .trim();
-            //console.log(txt.length, txt);
           });
         if ($(this).find("picture").length && $(this).find("h1").length) {
           const post = this;
@@ -201,9 +175,6 @@ function run_hln() {
             .then(response => response.json())
             .then(result => {
               console.log("Res", result);
-              //for (var a = 0; a < result.length; a++) {
-              //const _txt = arr_txts[a];
-              //const _post = $(arr_articles[a]);
               if (
                 result[0].hasOwnProperty("matched") &&
                 result[0].matched === false
@@ -220,13 +191,8 @@ function run_hln() {
                     get_label_html(result[0].conclusion, "hln", result[0])
                   );
               }
-              //}
-              //console.log($(post).find("img.scaledImageFitWidth.img").length);
             })
             .catch(error => console.log("error", error));
-          //arr_txts.push(txt);
-          //arr_articles.push(post);
-          //console.log("valid");
         } else {
           console.log(
             "invalid",
@@ -234,104 +200,10 @@ function run_hln() {
             $(this).find("h1").length
           );
         }
-        /*
-      $(this)
-        .find("h1")
-        .each(function() {
-          const txt = $(this)
-            .text()
-            .trim();
-          console.log(txt.length, txt);
-        });
-        */
       });
   });
-  /*
-  var requestOptions = {
-    method: "POST",
-    headers: myHeaders,
-    body: JSON.stringify(arr_txts),
-    redirect: "follow"
-  };
-  fetch("https://api-v2.factrank.org/bert-match", requestOptions)
-    .then(response => response.json())
-    .then(result => {
-      console.log("Res", result);
-      for (var a = 0; a < result.length; a++) {
-        const _txt = arr_txts[a];
-        const _post = $(arr_articles[a]);
-        if (
-          result[a].hasOwnProperty("matched") &&
-          result[a].matched === false
-        ) {
-          console.log("No match", _txt);
-          $(_post)
-            .css("position", "relative")
-            .append(get_label_html("NO MATCH " + a, "hln"));
-        } else {
-          console.log("Match", _txt, result[a]);
-          $(_post)
-            .css("position", "relative")
-            .append(get_label_html(result[a].conclusion + " " + a, "hln"));
-        }
-      }
-      //console.log($(post).find("img.scaledImageFitWidth.img").length);
-    })
-    .catch(error => console.log("error", error));
-    */
 }
 function run_fb() {
-  var inject_i = 0;
-  var demo_post = document.createElement("div");
-  demo_post.innerHTML = article_html_1;
-  insertAfter(document.getElementById("substream_0"), demo_post);
-  inject_i++;
-
-  console.log($("#substream_0"));
-  console.log($("#substream_1"));
-  console.log($("#substream_2"));
-
-  let interval_loop = setInterval(function() {
-    switch (inject_i) {
-      case 1:
-        if ($('[data-testid="fbfeed_story"]').length > 8) {
-          console.log("Injecting", $('[data-testid="fbfeed_story"]')[8]);
-          var demo_post = document.createElement("div");
-          demo_post.innerHTML = article_html_2;
-          insertAfter($('[data-testid="fbfeed_story"]')[8], demo_post);
-          inject_i++;
-        }
-        break;
-      case 2:
-        if ($('[data-testid="fbfeed_story"]').length > 17) {
-          console.log("Injecting");
-          var demo_post = document.createElement("div");
-          demo_post.innerHTML = article_html_3;
-          insertAfter($('[data-testid="fbfeed_story"]')[17], demo_post);
-          inject_i++;
-        }
-        break;
-      case 3:
-        if ($('[data-testid="fbfeed_story"]').length > 27) {
-          console.log("Injecting");
-          var demo_post = document.createElement("div");
-          demo_post.innerHTML = article_html_4;
-          insertAfter($('[data-testid="fbfeed_story"]')[27], demo_post);
-          inject_i++;
-        }
-
-        break;
-      case 4:
-        clearInterval(interval_loop);
-        break;
-    }
-
-    if ($('[data-testid="fbfeed_story"]').length > 8) {
-    } else if ($('[data-testid="fbfeed_story"]').length > 8) {
-    } else if ($('[data-testid="fbfeed_story"]').length > 8) {
-    } else console.log("count");
-  }, 1000);
-
   let i = 0;
   let found = [];
   setInterval(function() {
@@ -352,14 +224,12 @@ function run_fb() {
         post.hasClass("check-post-attr") ||
         found.indexOf(txt) > -1
       ) {
-        // console.log("Already processed", post.data("check-id"), txt);
       } else {
         console.log("NEW!", "visible?:", $(post).is(":visible"));
         post.addClass("check-post-attr");
         post.data("check-id", i);
         found.push(txt);
         console.log("Header found:", i, txt);
-        //chrome.browserAction.setBadgeText({ text: found.length + "" }); // We have 10+ unread items.
         var requestOptions = {
           method: "POST",
           headers: myHeaders,
@@ -384,7 +254,6 @@ function run_fb() {
                 get_label_html(result[0].conclusion, "fb", result[0])
               );
             }
-            //console.log($(post).find("img.scaledImageFitWidth.img").length);
           })
           .catch(error => console.log("error", error));
       }
@@ -392,11 +261,3 @@ function run_fb() {
     });
   }, 500);
 }
-/*
-// Inform the background page that
-// this tab should have a page-action
-chrome.runtime.sendMessage({
-  from: "content",
-  subject: "showPageAction"
-});
-*/
