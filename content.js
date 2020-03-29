@@ -15,6 +15,8 @@ function get_label_html(label, src, res) {
   console.log(res);
 
   if (label.toUpperCase() == "ONDUIDELIJK") {
+    console.log("ONDUIDELIJK", res);
+    url = res.url;
     icon = onzeker_icon;
     border = "orange";
     text = "Verifi.fi heeft geen info" + "<br>" + "gevonden voor dit artikel.";
@@ -62,6 +64,9 @@ function get_label_html(label, src, res) {
       "<br>" +
       "verified is.";
   }
+
+  if (url.startsWith("www")) url = "https://" + url;
+
   if (src == "hln")
     /*return (
       '<span class="fact-check-label hln label-onwaar" style="' +
