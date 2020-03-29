@@ -63,7 +63,7 @@ function get_label_html(label, src, res) {
       "verified is.";
   }
   if (src == "hln")
-    return (
+    /*return (
       '<span class="fact-check-label hln label-onwaar" style="' +
       "border: 1px solid " +
       border +
@@ -84,16 +84,17 @@ function get_label_html(label, src, res) {
       "<span class='arrow'>></span>" +
       "</span>" +
       "</span>"
-    );
-  else
+    );*/
     return (
-      '<span class="fact-check-label label-onwaar" style="' +
-      "border: 1px solid " +
+      '<span class="fact-check-label hln label-onwaar" style="' +
+      "border-color: " +
       border +
       ";" +
       '">' +
       icon +
-      '<span class="hover-content">' +
+      '<span class="normal-wrap">' +
+      label +
+      '</span><span class="hover-content">' +
       "<strong style='color: black;'>" +
       label +
       "</strong>" +
@@ -101,7 +102,32 @@ function get_label_html(label, src, res) {
       "  " +
       text +
       "</span>" +
-      "<a href='" +
+      "<a target='_blank' href='" +
+      url +
+      "'>Meer info..</a>" +
+      "<span class='arrow'>></span>" +
+      "</span>" +
+      "</span>"
+    );
+  else
+    return (
+      '<span class="fact-check-label fb label-onwaar" style="' +
+      "border-color: " +
+      border +
+      ";" +
+      '">' +
+      icon +
+      '<span class="normal-wrap">' +
+      label +
+      '</span><span class="hover-content">' +
+      "<strong style='color: black;'>" +
+      label +
+      "</strong>" +
+      "<span class='info'>" +
+      "  " +
+      text +
+      "</span>" +
+      "<a target='_blank' href='" +
       url +
       "'>Meer info..</a>" +
       "<span class='arrow'>></span>" +

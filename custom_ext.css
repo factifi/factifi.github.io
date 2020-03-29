@@ -2,19 +2,20 @@
   position: absolute;
   display: block;
   top: 130px;
-  left: -41px;
+  left: -20px;
   z-index: 999999999;
   font-size: 10px;
-  color: gray;
+  color: #000;
   line-height: 6px;
   background-color: white;
   border-radius: 20px;
-  opacity: 0.8;
+  border-width: 0;
+  padding: 8px;
 }
 
 .fact-check-label.hln {
   top: 10%;
-  left: -32px;
+  left: -19px;
 }
 
 ul > li .fact-check-label.hln {
@@ -22,18 +23,35 @@ ul > li .fact-check-label.hln {
   left: 0;
 }
 
+.normal-wrap {
+  line-height: 20px;
+  font-size: 12px;
+}
+
 .fact-check-label svg {
   height: 40px;
+
+  float: left;
+  margin-right: 10px;
 }
 
 .fact-check-label.hln svg {
   height: 30px;
 }
 
+.fact-check-label.hln svg {
+  width: 20px;
+  height: 20px;
+}
+
 .fact-check-label:hover {
   cursor: pointer;
-  padding: 10px;
   line-height: 15px;
+
+  width: 60%;
+  color: gray;
+  opacity: 0.8;
+  border-width: 1;
 }
 .fact-check-label .hover-content {
   display: none;
@@ -44,10 +62,15 @@ ul > li .fact-check-label.hln {
   display: block;
 }
 
-.fact-check-label:hover svg {
+.fact-check-label:hover .normal-wrap {
   display: none;
 }
 
 .arrow {
   color: black;
 }
+
+/*
+,
+.fact-check-label:hover svg
+*/
