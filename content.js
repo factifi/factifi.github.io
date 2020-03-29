@@ -5,10 +5,14 @@ myHeaders.append("Content-Type", "text/plain");
 function insertAfter(referenceNode, newNode) {
   referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
 }
-function get_label_html(label, src) {
+function get_label_html(label, src, res) {
   let text = "";
   let border = "";
   let icon = "";
+
+  let url = "#";
+
+  console.log(res);
 
   if (label.toUpperCase() == "ONDUIDELIJK") {
     icon = onzeker_icon;
@@ -23,42 +27,62 @@ function get_label_html(label, src) {
       "<br>" +
       "gevonden voor dit artikel.            ";
   }
-  if (label.toUpperCase() == "ONWAAR") {
+  if (
+    label.toUpperCase() == "ONWAAR" ||
+    label.toUpperCase() == "GROTENDEELS_ONWAAR"
+  ) {
+    label = "ONWAAR";
+
+    console.log("ONWAAR", res);
+    url = res.url;
     icon = onwaar_icon;
     border = "red";
     text =
       // '<img src="web-icons/onwaar.svg>' +
-      "Verifi.fi is <strong style='color: black;'>80% zeker</strong> dat dit artikel" +
+      "Verifi.fi is <strong style='color: black;'>" +
+      parseInt(parseFloat(res.confidence) * 100) +
+      "% zeker</strong> dat dit artikel" +
       "<br>" +
       "onwaarheden bevat.                 ";
   }
-  if (label.toUpperCase() == "WAAR") {
+  if (
+    label.toUpperCase() == "WAAR" ||
+    label.toUpperCase() == "GROTENDEELS_WAAR"
+  ) {
+    label = "WAAR";
+
+    console.log("WAAR", res);
+    url = res.url;
     icon = waar_icon;
     border = "green";
     text =
-      "Verifi.fi is <strong style='color: black;'>100% zeker</strong> dat dit artikel" +
+      "Verifi.fi is <strong style='color: black;'>" +
+      parseInt(parseFloat(res.confidence) * 100) +
+      "% zeker</strong> dat dit artikel" +
       "<br>" +
       "verified is.";
   }
   if (src == "hln")
     return (
-      '<span class="fact-check-label label-onwaar" style="' +
-      "position: absolute;" +
-      "display: block;" +
-      "top: 10px;" +
-      "left: 20px" +
-      "background-color: " +
-      color +
+      '<span class="fact-check-label hln label-onwaar" style="' +
+      "border: 1px solid " +
+      border +
       ";" +
-      "z-index: 999999999;" +
-      "font-size: 10px;" +
-      "color: white;" +
-      "/* width: 200px; */" +
-      "/* height: 100px; */" +
-      "line-height: 10px;" +
-      "padding: 10px;" +
       '">' +
+      icon +
+      '<span class="hover-content">' +
+      "<strong style='color: black;'>" +
       label +
+      "</strong>" +
+      "<span class='info'>" +
+      "  " +
+      text +
+      "</span>" +
+      "<a href='" +
+      url +
+      "'>Meer info..</a>" +
+      "<span class='arrow'>></span>" +
+      "</span>" +
       "</span>"
     );
   else
@@ -77,7 +101,9 @@ function get_label_html(label, src) {
       "  " +
       text +
       "</span>" +
-      "<a href='#'>Meer info..</a>" +
+      "<a href='" +
+      url +
+      "'>Meer info..</a>" +
       "<span class='arrow'>></span>" +
       "</span>" +
       "</span>"
@@ -109,7 +135,8 @@ function run_hln() {
     s_i++;
     console.log("Section", s_i);
     $(this)
-      .find("article")
+      .find("article:visible")
+      //.is("")
       .each(function() {
         console.log("ARTICLE");
         $(this)
@@ -122,11 +149,17 @@ function run_hln() {
           });
         if ($(this).find("picture").length && $(this).find("h1").length) {
           const post = this;
-          const txt = $(this)
+          let txt = $(this)
             .find("h1")
             .first()
             .text()
             .trim();
+
+          if (!txt.endsWith(".")) {
+            txt += ".";
+          }
+
+          txt = txt.replace(/^\w/, c => c.toUpperCase());
           var requestOptions = {
             method: "POST",
             headers: myHeaders,
@@ -147,12 +180,14 @@ function run_hln() {
                 console.log("No match", txt);
                 $(post)
                   .css("position", "relative")
-                  .append(get_label_html("NO MATCH", "hln"));
+                  .append(get_label_html("NO MATCH", "hln", result[0]));
               } else {
                 console.log("Match", txt, result[0]);
                 $(post)
                   .css("position", "relative")
-                  .append(get_label_html(result[0].conclusion, "hln"));
+                  .append(
+                    get_label_html(result[0].conclusion, "hln", result[0])
+                  );
               }
               //}
               //console.log($(post).find("img.scaledImageFitWidth.img").length);
@@ -264,9 +299,11 @@ function run_fb() {
               result[0].matched === false
             ) {
               console.log("No match");
-              $(post).append(get_label_html("NO MATCH", "fb"));
+              $(post).append(get_label_html("NO MATCH", "fb", result[0]));
             } else {
-              $(post).append(get_label_html(result[0].conclusion, "fb"));
+              $(post).append(
+                get_label_html(result[0].conclusion, "fb", result[0])
+              );
             }
             //console.log($(post).find("img.scaledImageFitWidth.img").length);
           })
