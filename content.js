@@ -276,9 +276,57 @@ function run_hln() {
     */
 }
 function run_fb() {
+  var inject_i = 0;
   var demo_post = document.createElement("div");
-  demo_post.innerHTML = article_html;
+  demo_post.innerHTML = article_html_1;
   insertAfter(document.getElementById("substream_0"), demo_post);
+  inject_i++;
+
+  console.log($("#substream_0"));
+  console.log($("#substream_1"));
+  console.log($("#substream_2"));
+
+  let interval_loop = setInterval(function() {
+    switch (inject_i) {
+      case 1:
+        if ($('[data-testid="fbfeed_story"]').length > 8) {
+          console.log("Injecting", $('[data-testid="fbfeed_story"]')[8]);
+          var demo_post = document.createElement("div");
+          demo_post.innerHTML = article_html_2;
+          insertAfter($('[data-testid="fbfeed_story"]')[8], demo_post);
+          inject_i++;
+        }
+        break;
+      case 2:
+        if ($('[data-testid="fbfeed_story"]').length > 17) {
+          console.log("Injecting");
+          var demo_post = document.createElement("div");
+          demo_post.innerHTML = article_html_3;
+          insertAfter($('[data-testid="fbfeed_story"]')[17], demo_post);
+          inject_i++;
+        }
+        break;
+      case 3:
+        if ($('[data-testid="fbfeed_story"]').length > 27) {
+          console.log("Injecting");
+          var demo_post = document.createElement("div");
+          demo_post.innerHTML = article_html_4;
+          insertAfter($('[data-testid="fbfeed_story"]')[27], demo_post);
+          inject_i++;
+        }
+
+        break;
+      case 4:
+        clearInterval(interval_loop);
+        break;
+    }
+
+    if ($('[data-testid="fbfeed_story"]').length > 8) {
+    } else if ($('[data-testid="fbfeed_story"]').length > 8) {
+    } else if ($('[data-testid="fbfeed_story"]').length > 8) {
+    } else console.log("count");
+  }, 1000);
+
   let i = 0;
   let found = [];
   setInterval(function() {
