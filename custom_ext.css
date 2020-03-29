@@ -1,3 +1,39 @@
 .fact-check-label {
   position: absolute;
+  display: block;
+  top: 130px;
+  left: -20px;
+  z-index: 999999999;
+  font-size: 10px;
+  color: gray;
+  line-height: 6px;
+  background-color: white;
+  border-radius: 20px;
+  opacity: 0.8;
+}
+
+.fact-check-label svg {
+  height: 40px;
+}
+
+.fact-check-label:hover {
+  cursor: pointer;
+  padding: 10px;
+  line-height: 15px;
+}
+.fact-check-label .hover-content {
+  display: none;
+}
+
+.fact-check-label:hover .hover-content,
+.fact-check-label .hover-content:hover {
+  display: block;
+}
+
+.fact-check-label:hover svg {
+  display: none;
+}
+
+.arrow {
+  color: black;
 }
