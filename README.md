@@ -6,3 +6,6 @@ https://github.com/factifi/factifi.github.io/archive/master.zip
 
 ### Follow these steps to install the unpacked extension
 https://webkul.com/blog/how-to-install-the-unpacked-extension-in-chrome/ 
+
+### Contact via 
+https://factifi.github.io/
